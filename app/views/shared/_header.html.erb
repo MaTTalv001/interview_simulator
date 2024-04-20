@@ -1,0 +1,23 @@
+<header>
+  <nav class="navbar navbar-expand-lg navigation bg-dark" data-bs-theme="dark">
+    <%= link_to "#", class: 'navbar-brand'  do %>
+    <%# <%= image_tag 'logo.png', width:50 %> 
+    <%end %>
+    <div class = "navbar-text">Sample App</div>
+    
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto main-nav align-items-center">
+        <li class="nav-item dropdown dropdown-slide">
+        <%= current_user.nickname %>
+            <%= link_to '振り返り', "#", class: 'dropdown-item' %>
+            <%= link_to 'Logout', logout_path, class: 'dropdown-item', data: { turbo_method: :delete } %>
+          </div>
+        </li>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

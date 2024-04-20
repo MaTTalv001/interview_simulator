@@ -1,0 +1,9 @@
+<!-- app/views/home/index.html.erb -->
+
+<h1>エンジニア面接シミュレータ</h1>
+<!-- app/views/home/index.html.erb -->
+<%= form_tag('/auth/github', method: 'post', data: {turbo: false}) do %>
+    <button type='submit' >Login with Developer</button>
+    <% end %>
+<%= link_to "Sign in with GitHub", "/auth/github", class: "btn btn-secondary" %>
+<%= link_to "Guest Login", interview_path, class: "btn btn-secondary" %>
