@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback', to: 'sessions#create'
   get '/auth/failure', to: redirect('/')
   get '/interview', to: 'interview#index'
+  get '/interview/show', to: 'interview#show', as: :show_interview
   get '/logout', to: 'sessions#destroy', as: :logout
   get "up" => "rails/health#show", as: :rails_health_check
 end

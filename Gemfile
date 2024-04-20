@@ -73,3 +73,4 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'dotenv-rails', groups: [:development, :test]
 gem "omniauth-rails_csrf_protection"
+gem "rest-client"
