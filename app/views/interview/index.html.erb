@@ -1,7 +1,7 @@
 <!-- app/views/interview/index.html.erb -->
 <h1>面接ページ</h1>
 <%= form_with url: show_interview_path, method: :get, local: true do |form| %>
-  <%= form.label :repository, 'GitHub Repository' %>
+  <%= form.label :repository, 'GitHubリポジトリ' %>
   <%= form.select :repository, @repositories.collect { |name, url| [name, url] }, { include_blank: true } %>
-  <%= form.submit "Select" %>
+  <%= form.submit "選択" %>
 <% end %>

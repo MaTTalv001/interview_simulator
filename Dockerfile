@@ -70,6 +70,9 @@ USER rails:rails
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
+
+ARG OPENAI_ACCESS_TOKEN
+ENV OPENAI_ACCESS_TOKEN=$OPENAI_ACCESS_TOKEN
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
 CMD ["./bin/rails", "server"]

@@ -7,8 +7,8 @@ class InterviewController < ApplicationController
 
   def show
     repo_url = params[:repository]
-    @readme = fetch_readme(repo_url)
-     Rails.logger.info("@readme:#{@readme}")
+    readme_contents = fetch_readme(repo_url)
+    @questions = OpenAiService.generate_questions(readme_contents)
     render :show
   end
    
