@@ -1,3 +1,11 @@
 <!-- app/views/interview/show.html.erb -->
-<h1>Selected Repository README</h1>
-<%= simple_format @readme %>
+<h1>Generated Questions</h1>
+<ul>
+  <% if @questions.is_a?(Array) %>
+    <% @questions.each do |question| %>
+      <li><%= question %></li>
+    <% end %>
+  <% else %>
+    <li>Questions could not be loaded.</li>
+  <% end %>
+</ul>
