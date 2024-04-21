@@ -1,0 +1,6 @@
+<!-- app/views/interview/answer.html.erb -->
+<h1><%= session[:questions][session[:current_index]] %></h1>
+<%= form_with url: process_answer_path, method: :post do |form| %>
+  <%= form.text_field :answer, placeholder: "Your answer here" %>
+  <%= form.submit "Submit" %>
+<% end %>

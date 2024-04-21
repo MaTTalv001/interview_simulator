@@ -9,7 +9,22 @@ class InterviewController < ApplicationController
     repo_url = params[:repository]
     readme_contents = fetch_readme(repo_url)
     @questions = OpenAiService.generate_questions(readme_contents)
-    render :show
+    session[:questions] = @questions  # 質問をセッションに保存
+    session[:current_index] = 0       # 現在の質問インデックスを初期化
+  
+    redirect_to answer_question_path  # 質問回答用のビューへリダイレクト
+  end
+
+  # app/controllers/interview_controller.rb
+  def process_answer
+    # TODO回答をセッションに保存するロジック（後々のDB保存用）
+    index = session[:current_index] + 1
+    if index < session[:questions].length
+      session[:current_index] = index
+      redirect_to answer_question_path  # 次の質問へ
+    else
+      redirect_to interview_index_path  # 全ての質問が終了
+    end
   end
    
 
