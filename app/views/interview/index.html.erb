@@ -5,3 +5,4 @@
   <%= form.select :repository, @repositories.collect { |name, url| [name, url] }, { include_blank: true } %>
   <%= form.submit "選択" %>
 <% end %>
+<%= link_to '汎用面接へ', start_generic_interview_path, class: 'btn btn-secondary' %>

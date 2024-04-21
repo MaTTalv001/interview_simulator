@@ -2,7 +2,12 @@ require 'rest-client'
 
 class InterviewController < ApplicationController
   def index
-    @repositories = fetch_repositories
+    if session[:user_id].present?
+      current_user = User.find(session[:user_id])
+      @repositories = fetch_repositories(current_user.nickname)
+    else
+      redirect_to login_path, alert: "You must be logged in to access this page."
+    end
   end
 
   def show
@@ -15,15 +20,57 @@ class InterviewController < ApplicationController
     redirect_to answer_question_path  # 質問回答用のビューへリダイレクト
   end
 
-  # app/controllers/interview_controller.rb
   def process_answer
-    # TODO回答をセッションに保存するロジック（後々のDB保存用）
+    answer = params[:answer]
+    question = session[:questions][session[:current_index]]
+    current_user = User.find(session[:user_id])  # 仮にセッションにユーザーIDがあると仮定
+
+    current_user.question_responses.create(
+      question: question,
+      answer: answer,
+      category: "README質問"
+    )
+
     index = session[:current_index] + 1
     if index < session[:questions].length
       session[:current_index] = index
-      redirect_to answer_question_path  # 次の質問へ
+      redirect_to answer_question_path
     else
-      redirect_to interview_index_path  # 全ての質問が終了
+      session.delete(:questions)
+      session.delete(:current_index)
+      redirect_to interview_index_path, notice: '全ての質問に回答しました。'
+    end
+  end
+
+
+  def start_generic
+    current_user = User.find(session[:user_id])
+    @questions = Question.order("RAND()").limit(5)
+    session[:questions] = @questions.map(&:content)
+    session[:current_index] = 0
+
+    redirect_to answer_generic_question_path  # 汎用質問回答用のビューへリダイレクト
+  end
+
+  def process_generic_answer
+    answer = params[:answer]
+    question_content = session[:questions][session[:current_index]]
+    current_user = User.find(session[:user_id])
+
+    current_user.question_responses.create(
+      question: question_content,
+      answer: answer,
+      category: "一般質問"
+    )
+
+    index = session[:current_index] + 1
+    if index < session[:questions].length
+      session[:current_index] = index
+      redirect_to answer_generic_question_path
+    else
+      session.delete(:questions)
+      session.delete(:current_index)
+      redirect_to interview_index_path, notice: '全ての質問に回答しました。'
     end
   end
    
@@ -31,7 +78,6 @@ class InterviewController < ApplicationController
   private
 
   def fetch_readme(repo_url)
-    # GitHub APIからREADMEを取得する
     uri = URI(repo_url)
     path_parts = uri.path.split('/')
     owner = path_parts[1]
@@ -48,10 +94,10 @@ class InterviewController < ApplicationController
     "README is not available."
   end
 
-  def fetch_repositories
-    response = RestClient.get "https://api.github.com/user/repos", {
+  def fetch_repositories(nickname)
+    response = RestClient.get "https://api.github.com/users/#{nickname}/repos", {
       Authorization: "token #{ENV['GITHUB_TOKEN']}",
-      params: { visibility: 'public' }
+      params: { visibility: 'all' }
     }
     JSON.parse(response.body).map { |repo| [repo['name'], repo['html_url']] }
   rescue RestClient::Exception => e
