@@ -1,0 +1,12 @@
+<!-- app/views/question_responses/edit.html.erb -->
+<h1>Edit Response</h1>
+
+<%= form_with(model: @response, url: question_response_path(@response), local: true, method: :patch) do |form| %>
+  <div class="field">
+    <%= form.label :answer, "Your Answer" %>
+    <%= form.text_area :answer, rows: 3 %>
+  </div>
+  <div class="actions">
+    <%= form.submit "Update Answer" %>
+  </div>
+<% end %>

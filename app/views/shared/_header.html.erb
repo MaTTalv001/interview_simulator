@@ -1,9 +1,10 @@
 <header>
   <nav class="navbar navbar-expand-lg navigation bg-dark" data-bs-theme="dark">
-    <%= link_to "#", class: 'navbar-brand'  do %>
-    <%# <%= image_tag 'logo.png', width:50 %> 
+    <%= link_to root_path, class: 'navbar-brand'  do %>
+    <%= image_tag 'undraw_Interview_re_e5jn.png', width:50 %>
+    <div class = "navbar-text  ">エンジニア面接シミュレータ</div>
     <%end %>
-    <div class = "navbar-text">エンジニア面接シミュレータ</div>
+    <div class = "bg-orange-600">エンジニア面接シミュレータ</div>
     
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -12,7 +13,7 @@
       <ul class="navbar-nav ms-auto main-nav align-items-center">
         <li class="nav-item dropdown dropdown-slide">
         <%= current_user.nickname %>
-            <%= link_to '振り返り', "#", class: 'dropdown-item' %>
+            <%= link_to '振り返り', review_questions_path, class: 'dropdown-item' %>
             <%= link_to 'Logout', logout_path, class: 'dropdown-item', data: { turbo_method: :delete } %>
           </div>
         </li>

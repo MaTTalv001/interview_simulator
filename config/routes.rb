@@ -2,6 +2,7 @@
 Rails.application.routes.draw do
   get 'interview/index'
   root 'home#index'
+  resources :question_responses, only: [:edit, :update, :destroy]
   get '/auth/:provider/callback', to: 'sessions#create'
   get '/auth/failure', to: redirect('/')
   get '/interview', to: 'interview#index'
@@ -11,6 +12,8 @@ Rails.application.routes.draw do
   get 'interview/start_generic', to: 'interview#start_generic', as: :start_generic_interview
   get 'interview/answer_generic', to: 'interview#answer_generic', as: :answer_generic_question
   post 'interview/process_generic_answer', to: 'interview#process_generic_answer', as: :process_generic_answer
+  get 'interview/review', to: 'interview#review', as: :review_questions
+  
   get '/logout', to: 'sessions#destroy', as: :logout
   get "up" => "rails/health#show", as: :rails_health_check
 end

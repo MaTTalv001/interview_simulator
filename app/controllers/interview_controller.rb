@@ -73,6 +73,11 @@ class InterviewController < ApplicationController
       redirect_to interview_index_path, notice: '全ての質問に回答しました。'
     end
   end
+
+  def review
+    current_user = User.find(session[:user_id])
+    @responses = current_user.question_responses.order(created_at: :desc)
+  end
    
 
   private

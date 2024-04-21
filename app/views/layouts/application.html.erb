@@ -1,10 +1,15 @@
-<!-- app/views/layouts/application.html.erb -->
 <!DOCTYPE html>
-<html>
-<head>
-  <title>MyApp</title>
-</head>
-<body>
+<html data-theme="corporate">
+  <head>
+    <title>Myapp</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+
   <%= notice %>
   <% if user_signed_in? %>
   <%= render 'shared/header' %>
@@ -12,5 +17,4 @@
     <%= link_to 'GitHubでログイン', '/auth/github' %>
   <% end %>
   <%= yield %>
-</body>
 </html>

@@ -1,0 +1,27 @@
+<!-- app/views/interview/review.html.erb -->
+<h1>過去の質問と回答</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>カテゴリ</th>
+      <th>質問</th>
+      <th>回答</th>
+      <th>操作</th>
+      <th>更新日</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @responses.each do |response| %>
+      <tr>
+        <td><%= response.category %></td>
+        <td><%= response.question %></td>
+        <td><%= response.answer %></td>      
+        <td>
+          <%= link_to '編集', edit_question_response_path(response), class: 'btn btn-primary' %>
+          <%= link_to '削除', question_response_path(response), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+        </td>
+        <td><%= response.updated_at.strftime("%Y/%m/%d") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
